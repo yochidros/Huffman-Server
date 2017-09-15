@@ -17,7 +17,7 @@ def encode(symb2freq):
     
     return sorted(heappop(heap)[1:], key=lambda p: (len(p[-1]),p))
 
-txt = "hello"
+""txt = "hello"
 '''dictionary = [String:Int] '''
 symb2freq = defaultdict(int)
 for ch in txt:
