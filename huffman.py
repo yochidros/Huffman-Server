@@ -1,29 +1,59 @@
-from heapq import heappush, heappop, heapify
-from collections import defaultdict
+import subprocess
 
-def encode(symb2freq):
-    heap = [ [wt,[ sym, "" ]] for sym, wt in symb2freq.items()]
-    heapify(heap)
 
-    while len(heap) > 1:
-        lo = heappop(heap)
-        hi = heappop(heap)
-        for pair in lo[1:]:
-            pair[1] = '0' + pair[1]
-        for pair in hi[1:]:
-            pair[1] = '1' + pair[1]
+def assign_code(nodes, label, result, prefix=""):
+    childs = nodes[label]
+    tree = {}
+    if len(childs) == 2:
+        tree["0"] = assign_code(nodes, childs[0], result, prefix+"0")
+        tree["1"] = assign_code(nodes, childs[1], result, prefix+"1")
+        return tree
+    else:
+        result[label] = prefix
+        return label
 
-        heappush(heap, [lo[0] + hi[0]] + lo[1:] + hi[1:])
-    
-    return sorted(heappop(heap)[1:], key=lambda p: (len(p[-1]),p))
 
-""txt = "hello"
-'''dictionary = [String:Int] '''
-symb2freq = defaultdict(int)
-for ch in txt:
-    symb2freq[ch] += 1
+def Huffman_code(_vals):
+    vals = _vals.copy()
+    nodes = {}
+    for n in vals.keys():  # leafs initialization
+        nodes[n] = []
 
-huff = encode(symb2freq)
+    while len(vals) > 1:  # binary tree creation
+        s_vals = sorted(vals.items(), key=lambda x: x[1])
+        a1 = s_vals[0][0]
+        a2 = s_vals[1][0]
+        vals[a1+a2] = vals.pop(a1) + vals.pop(a2)
+        nodes[a1+a2] = [a1, a2]
+    if len(vals) == 1:
+        tree = {}
+        for k in vals.keys():
+            tree["0"] = k
+        return tree
+    code = {}
+    root = a1+a2
+    tree = {}
+    # assignment of the code for the given binary tree
+    tree = assign_code(nodes, root, code)
+    return tree
 
-for p in huff:
-    print(p[0] + "" + p[1])
+
+def draw_tree(tree, prefix=''):
+    if isinstance(tree, str):
+        descr = 'N%s [label="%s\n%s", fontcolor=blue, fontsize=16, width=2, shape=box];\n' % (prefix, tree, prefix)
+    else:  # Node description
+        descr = 'N%s [label="%s"];\n' % (prefix, prefix)
+        for child in tree.keys():
+            descr += draw_tree(tree[child], prefix=prefix+child)
+            descr += "N%s -> N%s;\n" % (prefix, prefix+child)
+    return descr
+
+
+def generate_image(data={}):
+    tree = Huffman_code(data)
+
+    with open("graph.dot", "w") as f:
+        f.write("digraph G {\n")
+        f.write(draw_tree(tree))
+        f.write("}")
+    subprocess.call("dot -Tpng graph.dot -o graph.png", shell=True)
