@@ -25,17 +25,12 @@ def Huffman_code(_vals):
         a2 = s_vals[1][0]
         vals[a1+a2] = vals.pop(a1) + vals.pop(a2)
         nodes[a1+a2] = [a1, a2]
-    if len(vals) == 1:
-        tree = {}
-        for k in vals.keys():
-            tree["0"] = k
-        return tree
     code = {}
     root = a1+a2
     tree = {}
     # assignment of the code for the given binary tree
     tree = assign_code(nodes, root, code)
-    return tree
+    return code, tree
 
 
 def draw_tree(tree, prefix=''):
@@ -48,9 +43,9 @@ def draw_tree(tree, prefix=''):
             descr += "N%s -> N%s;\n" % (prefix, prefix+child)
     return descr
 
-
 def generate_image(data={}):
-    tree = Huffman_code(data)
+    vals = {l: v for (v, l) in samp}
+    code, tree = Huffman_code(vals)
 
     with open("graph.dot", "w") as f:
         f.write("digraph G {\n")
