@@ -1,4 +1,5 @@
 import subprocess
+import upload
 
 
 def assign_code(nodes, label, result, prefix=""):
@@ -56,4 +57,6 @@ def generate_image(data={}):
         f.write("digraph G {\n")
         f.write(draw_tree(tree))
         f.write("}")
-    subprocess.call("dot -Tpng graph.dot -o graph.png", shell=True)
+    result = subprocess.run('dot -Tpng graph.dot -o graph.png', shell=True)
+    if result == 0:
+        upload() 
