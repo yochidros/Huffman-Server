@@ -19,18 +19,21 @@ def Huffman_code(_vals):
     nodes = {}
     for n in vals.keys():  # leafs initialization
         nodes[n] = []
-
+    print(nodes)
     while len(vals) > 1:  # binary tree creation
         s_vals = sorted(vals.items(), key=lambda x: x[1])
         a1 = s_vals[0][0]
         a2 = s_vals[1][0]
         vals[a1+a2] = vals.pop(a1) + vals.pop(a2)
         nodes[a1+a2] = [a1, a2]
+        '''
     if len(vals) == 1:
         tree = {}
+        print(tree)
         for k in vals.keys():
             tree["0"] = k
         return tree
+        '''
     code = {}
     root = a1+a2
     tree = {}
@@ -52,11 +55,11 @@ def draw_tree(tree, prefix=''):
 
 def generate_image(data={}):
     tree = Huffman_code(data)
-
-    with open("graph.dot", "w") as f:
+    print(tree)
+    with open("../image/graph.dot", "w") as f:
         f.write("digraph G {\n")
         f.write(draw_tree(tree))
         f.write("}")
-    result = subprocess.run('dot -Tpng graph.dot -o graph.png', shell=True)
+    result = subprocess.call('dot -Tpng ../image/graph.dot -o ../image/graph.png', shell=True)
     if result == 0:
-        upload() 
+        upload.upload()

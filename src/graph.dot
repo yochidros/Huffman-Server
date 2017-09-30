@@ -1,6 +1,0 @@
-digraph G {
-N [label=""];
-N0 [label="ea
-0", fontcolor=blue, fontsize=16, width=2, shape=box];
-N -> N0;
-}
