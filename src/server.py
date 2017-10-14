@@ -9,7 +9,7 @@ def hello():
 @route('/huffman', method='POST')
 def huffman():
     data = json.load(request.body)
-    print(data['data'])
+    print(data)
     generate_image(data['data'])
     body = {"status":"OK", "message":"Received datas!! Thank you!!"}
     r = HTTPResponse(status=200, body=body)
