@@ -6,4 +6,7 @@
   - ## pip requirements
    - bottle==0.12.13
    - boto3==1.4.7
-   
+   - awscli
+ - Infra
+  - AWS
+    - S3
