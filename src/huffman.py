@@ -26,14 +26,14 @@ def Huffman_code(_vals):
         a2 = s_vals[1][0]
         vals[a1+a2] = vals.pop(a1) + vals.pop(a2)
         nodes[a1+a2] = [a1, a2]
-        '''
+    """  
     if len(vals) == 1:
         tree = {}
         print(tree)
         for k in vals.keys():
             tree["0"] = k
         return tree
-        '''
+    """ 
     code = {}
     root = a1+a2
     tree = {}

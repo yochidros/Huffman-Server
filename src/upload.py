@@ -16,7 +16,7 @@ def upload():
     bucket = s3.Bucket('projecthuffmancode')
     
     for object in bucket.objects.all():
-        if object.key == "images/graph.png":
+        if object.key == "graph.png":
             object.delete()
 
     image_name = generate_auth_key() + ".png"
