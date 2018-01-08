@@ -56,10 +56,10 @@ def draw_tree(tree, prefix=''):
 def generate_image(data={}):
     tree = Huffman_code(data)
     print(tree)
-    with open("../image/graph.dot", "w") as f:
+    with open("graph.dot", "w") as f:
         f.write("digraph G {\n")
         f.write(draw_tree(tree))
         f.write("}")
-    result = subprocess.call('dot -Tpng ../image/graph.dot -o ../image/graph.png', shell=True)
+    result = subprocess.call('dot -Tpng graph.dot -o graph.png', shell=True)
     if result == 0:
-        upload.upload()
+        return upload.upload()

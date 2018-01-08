@@ -9,13 +9,10 @@ def hello():
 @route('/huffman', method='POST')
 def huffman():
     data = json.load(request.body)
-    print(data['data'])
-    generate_image(data['data'])
-    body = {"status":"OK", "message":"Received datas!! Thank you!!"}
+    image_url = generate_image(data['data'])
+    body = {"status":"OK", "image_name":image_url}
     r = HTTPResponse(status=200, body=body)
     r.set_header("Content-Type","application/json")
     return r
-
-
 
 run(host='localhost', port=8000, debug=True)
