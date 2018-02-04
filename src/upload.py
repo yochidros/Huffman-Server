@@ -26,4 +26,5 @@ def upload():
 
 # test
 if __name__ == "__main__":
-    upload()
+    print(generate_auth_key())
+    #upload()
